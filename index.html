@@ -35,7 +35,7 @@
   <h2>لوحة تحكم المدير</h2>
   <input type="text" id="productName" placeholder="اسم المنتج" />
   <input type="url" id="productImage" placeholder="رابط صورة المنتج" />
-  <input type="number" id="productPrice" placeholder="السعر (دولار)" />
+  <input type="number" id="productPrice" placeholder="السعر (د.أ)" step="0.01" />
   <button onclick="addProduct()">إضافة منتج</button>
   <button onclick="logout()" style="background:#f44336;">خروج</button>
   <div id="productsList" class="products"></div>
@@ -46,6 +46,7 @@
 <script>
   const adminEmail = "mjdhndyt77@gmail.com";
   const adminPass = "12345.majd";
+  const exchangeRate = 1.41; // سعر صرف 1 دينار أردني = 1.41 دولار
 
   // تسجيل الدخول
   function login() {
@@ -115,7 +116,9 @@
 
       const price = document.createElement("div");
       price.classList.add("product-price");
-      price.textContent = product.price + " د.أ";
+      const priceJD = parseFloat(product.price);
+      const priceUSD = (priceJD * exchangeRate).toFixed(2);
+      price.textContent = `${priceJD} د.أ  |  $${priceUSD}`;
 
       prodDiv.appendChild(img);
       prodDiv.appendChild(name);
